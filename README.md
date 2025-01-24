@@ -33,7 +33,7 @@ docker run -d \
        "from":"<FROM_EMAIL>","to":["<TO_EMAIL>"],
        "subject":"<SUBJECT>",
        "fields":["<FIELD1>","<FIELD2>"]
-   	 }'
+     }'
    ```
 
    The response body will contain the encrypted JSON configuration string that you will include in your static website code for future client-side requests.
