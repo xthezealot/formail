@@ -9,11 +9,11 @@ It is a self-hosted, open-source alternative to Formspree.
 
 ```sh
 docker run -d \
-	--name formail \
-	-p 8080:8080 \
-	-e SECRET=<SECRET_KEY> \
-	--restart unless-stopped \
-	thezealot/formail
+  --name formail \
+  -p 8080:8080 \
+  -e SECRET=<SECRET_KEY> \
+  --restart unless-stopped \
+  thezealot/formail
 ```
 
 ## Usage
@@ -24,16 +24,16 @@ docker run -d \
 
    ```sh
    curl https://<HOST>/encrypt?key=<SECRET_KEY> \
-   		-H "Content-Type: application/json" \
-   		-d '{
-   			"smtpHost":"<SMTP_HOST>",
-   			"smtpPort":<SMTP_PORT>,
-   			"smtpUsername":"<SMTP_USER>",
-   			"smtpPassword":"<SMTP_PASSWORD>",
-   			"from":"<FROM_EMAIL>","to":["<TO_EMAIL>"],
-   			"subject":"<SUBJECT>",
-   			"fields":["<FIELD1>","<FIELD2>"]
-   			}'
+     -H "Content-Type: application/json" \
+     -d '{
+       "smtpHost":"<SMTP_HOST>",
+       "smtpPort":<SMTP_PORT>,
+       "smtpUsername":"<SMTP_USER>",
+       "smtpPassword":"<SMTP_PASSWORD>",
+       "from":"<FROM_EMAIL>","to":["<TO_EMAIL>"],
+       "subject":"<SUBJECT>",
+       "fields":["<FIELD1>","<FIELD2>"]
+   	 }'
    ```
 
    The response body will contain the encrypted JSON configuration string that you will include in your static website code for future client-side requests.
@@ -42,17 +42,17 @@ docker run -d \
 
    Once you have the encrypted configuration, send your form data to the `/` endpoint:
 
-   ```json
-   POST /
-   Content-Type: application/json
+   ```jsonc
+   // POST /
+   // Content-Type: application/json
 
    {
-   	"config": "<ENCRYPTED_CONFIG>",
-   	"fields": {
-   		"name": "John Doe",
-   		"email": "john.doe@example.com",
-   		"message": "This is a test message."
-   	}
+     "config": "<ENCRYPTED_CONFIG>",
+     "fields": {
+       "name": "John Doe",
+       "email": "john.doe@example.com",
+       "message": "This is a test message."
+     }
    }
    ```
 
