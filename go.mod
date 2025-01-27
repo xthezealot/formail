@@ -1,3 +1,3 @@
 module github.com/xthezealot/formail
 
-go 1.21.7
+go 1.23

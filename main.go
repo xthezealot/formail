@@ -8,7 +8,6 @@ import (
 	"net/smtp"
 	"os"
 	"strings"
-	"time"
 )
 
 var (
@@ -105,8 +104,14 @@ func main() {
 	})
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		encryptedConfig := r.FormValue("config")
+		if encryptedConfig == "" {
+			http.Error(w, "No config provided", http.StatusBadRequest)
+			return
+		}
+
 		// Decrypt JSON
-		decryptedConfig, err := decrypt(r.FormValue("config"))
+		decryptedConfig, err := decrypt(r.FormValue(encryptedConfig))
 		if err != nil {
 			http.Error(w, "Failed to decrypt data: "+err.Error(), http.StatusBadRequest)
 			return
@@ -138,7 +143,11 @@ func main() {
 		fmt.Fprint(w, "Form submitted successfully")
 	})
 
-	http.ListenAndServe(":8080", http.TimeoutHandler(http.DefaultServeMux, 1*time.Hour, ""))
+	addr := os.Getenv("ADDR")
+	if addr == "" {
+		addr = ":8080"
+	}
+	log.Fatal(http.ListenAndServe(addr, nil))
 }
 
 func sendEmail(config Config, data map[string]string) error {
